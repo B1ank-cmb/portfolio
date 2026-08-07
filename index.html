@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Neteru Freeman — Web Developer</title>
+<meta name="description" content="Web developer. Fast, maintainable sites for small businesses — built so the owners can run them without me.">
+<style>
+:root{
+  --bg:#0E1116; --panel:#161B22; --line:#252C36; --ink:#E6EDF3; --soft:#8B96A3;
+  --accent:#4C9EEB; --accent-2:#7EE0A8; --r:12px;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font:400 17px/1.65 ui-sans-serif,system-ui,"Segoe UI",Arial,sans-serif;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1000px;margin:0 auto;padding:0 24px}
+a{color:var(--accent)}
+h1,h2,h3{margin:0 0 12px;line-height:1.15;letter-spacing:-.025em}
+
+header{padding:80px 0 56px;border-bottom:1px solid var(--line)}
+header h1{font-size:clamp(2.1rem,5.5vw,3.4rem)}
+header .role{color:var(--accent-2);font-weight:600;letter-spacing:.02em;margin-bottom:14px;
+  font-size:.9rem;text-transform:uppercase}
+header p{color:var(--soft);font-size:1.12rem;max-width:56ch;margin:0 0 26px}
+.links{display:flex;gap:12px;flex-wrap:wrap}
+.btn{display:inline-block;text-decoration:none;padding:11px 20px;border-radius:var(--r);
+  font-weight:600;font-size:.95rem;background:var(--accent);color:#08131F}
+.btn.ghost{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1px var(--line)}
+
+section{padding:60px 0}
+.lab{font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;color:var(--soft);margin-bottom:26px}
+
+.work{display:grid;grid-template-columns:1fr 1.25fr;gap:30px;align-items:center;
+  background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:26px;margin-bottom:22px}
+@media(max-width:780px){.work{grid-template-columns:1fr;gap:20px}}
+.thumb{aspect-ratio:16/11;border-radius:var(--r);overflow:hidden;border:1px solid var(--line);background:#0B0E13}
+.thumb iframe{width:1280px;height:880px;border:0;transform:scale(.29);transform-origin:0 0;
+  pointer-events:none;display:block}
+.work h3{font-size:1.35rem}
+.kind{font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent-2);margin-bottom:6px}
+.work p{color:var(--soft);font-size:.97rem;margin:0 0 14px}
+.tags{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:16px}
+.tag{font-size:.76rem;background:#1E2530;color:var(--soft);border-radius:99px;padding:5px 11px}
+.note{font-size:.86rem;color:var(--soft);border-left:2px solid var(--line);padding-left:12px;margin:0 0 16px}
+.note b{color:var(--ink);font-weight:600}
+
+.how{display:grid;gap:22px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
+.how div h3{font-size:1.02rem;color:var(--accent-2)}
+.how div p{color:var(--soft);font-size:.94rem;margin:0}
+
+.cta{border-top:1px solid var(--line);text-align:center;padding:70px 0}
+.cta h2{font-size:1.9rem}
+.cta p{color:var(--soft);max-width:46ch;margin:0 auto 24px}
+
+footer{border-top:1px solid var(--line);padding:28px 0 46px;color:#5E6875;font-size:.85rem}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="role">Web Developer · Available now</div>
+    <h1>I build small business sites that the owner can actually run.</h1>
+    <p>Most small businesses end up paying someone every time they need to change a phone number. I build the opposite of that — fast, maintainable sites with a content editor the staff can use, and a handoff that means they don't need me on retainer.</p>
+    <div class="links">
+      <a class="btn" href="mailto:Freemanneteru@gmail.com">Get in touch</a>
+      <a class="btn ghost" href="#work">See the work</a>
+      <a class="btn ghost" href="#how">How I work</a>
+    </div>
+  </div>
+</header>
+
+<section id="work">
+  <div class="wrap">
+    <div class="lab">Selected builds</div>
+
+    <article class="work">
+      <div class="thumb"><iframe src="bird-and-bun.html" title="Bird & Bun preview" loading="lazy" scrolling="no"></iframe></div>
+      <div>
+        <div class="kind">Food service · Next.js + Sanity CMS</div>
+        <h3>Bird &amp; Bun</h3>
+        <p>A Miami food truck with a menu that rotates every few weeks. The whole build is organised around one problem: the owners change the menu constantly and shouldn't need a developer to do it.</p>
+        <p class="note"><b>The interesting part:</b> the site falls back to bundled content if the CMS is unreachable. A food truck showing a blank menu at noon is worse than showing a slightly stale one.</p>
+        <div class="tags"><span class="tag">Next.js 16</span><span class="tag">Sanity</span><span class="tag">TypeScript</span><span class="tag">ISR</span></div>
+        <a href="bird-and-bun.html">Open the site →</a>
+      </div>
+    </article>
+
+    <article class="work">
+      <div class="thumb"><iframe src="northline-hvac.html" title="Northline HVAC preview" loading="lazy" scrolling="no"></iframe></div>
+      <div>
+        <div class="kind">Home services · Conversion-focused</div>
+        <h3>Northline Heating &amp; Air</h3>
+        <p>An emergency HVAC company. The visitor is stressed, cold, and on a phone — so the design is built around getting them to call within about eight seconds, and everything else is subordinate to that.</p>
+        <p class="note"><b>The interesting part:</b> the quote form asks what's wrong <i>before</i> asking who you are. Leading with the customer's problem instead of your data collection measurably raises completion.</p>
+        <div class="tags"><span class="tag">Semantic HTML</span><span class="tag">Sticky call CTA</span><span class="tag">Schema-ready</span><span class="tag">No frameworks</span></div>
+        <a href="northline-hvac.html">Open the site →</a>
+      </div>
+    </article>
+
+    <article class="work">
+      <div class="thumb"><iframe src="foldmark-goods.html" title="Foldmark Goods preview" loading="lazy" scrolling="no"></iframe></div>
+      <div>
+        <div class="kind">Retail · Storefront with working cart</div>
+        <h3>Foldmark Goods</h3>
+        <p>A small stationery brand. Category filtering, per-product colour variants, a slide-out cart with quantity editing, and free-shipping threshold logic — all functioning, no backend required.</p>
+        <p class="note"><b>The interesting part:</b> product images are generated in-browser from a seeded random function, so the layout can be judged with real visual weight before any photography exists.</p>
+        <div class="tags"><span class="tag">Vanilla JS</span><span class="tag">Cart state</span><span class="tag">Canvas</span><span class="tag">Responsive grid</span></div>
+        <a href="foldmark-goods.html">Open the site →</a>
+      </div>
+    </article>
+
+    <article class="work">
+      <div class="thumb"><iframe src="marguerite-atelier.html" title="Marguerite Vaillant preview" loading="lazy" scrolling="no"></iframe></div>
+      <div>
+        <div class="kind">Arts · Editorial &amp; gallery</div>
+        <h3>Marguerite Vaillant — Atelier</h3>
+        <p>A ceramicist's portfolio. The opposite discipline from the others: the work is the loudest thing on the page and the interface stays quiet. Masonry grid, keyboard-accessible lightbox, no decoration competing with the pieces.</p>
+        <p class="note"><b>The interesting part:</b> every vessel is drawn procedurally from a seeded profile curve, so no two are the same silhouette — and the whole gallery is under 25KB with no image requests.</p>
+        <div class="tags"><span class="tag">Canvas 2D</span><span class="tag">CSS Grid</span><span class="tag">A11y lightbox</span><span class="tag">Zero images</span></div>
+        <a href="marguerite-atelier.html">Open the site →</a>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section id="how">
+  <div class="wrap">
+    <div class="lab">How I work</div>
+    <div class="how">
+      <div><h3>The owner comes first</h3><p>If the staff can't update the site themselves, I built the wrong thing. Every project ships with a plain-language guide written for the person who'll actually use it.</p></div>
+      <div><h3>Fast by default</h3><p>Static where possible, JavaScript only where it earns its place. Most of these pages ship less than 30KB and load instantly on a phone with two bars.</p></div>
+      <div><h3>Clean handoff</h3><p>You get the repo, the docs, and an explanation of every decision. The goal is that you don't need me after launch — and call me back because you want to, not because you're stuck.</p></div>
+      <div><h3>Honest scoping</h3><p>I'll tell you when something you're asking for is a bad idea, and when a project is bigger than your budget. Both conversations are cheaper before the work than after.</p></div>
+    </div>
+  </div>
+</section>
+
+<div class="cta">
+  <div class="wrap">
+    <h2>Got a project?</h2>
+    <p>Tell me what the business does and what's broken. I'll tell you honestly whether I'm the right person for it.</p>
+    <a class="btn" href="mailto:Freemanneteru@gmail.com">Freemanneteru@gmail.com</a>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <p style="margin:0">These are concept builds — self-directed projects for fictional businesses, made to demonstrate range across industries. Each one is fully functional; none represents a real client, and no real company, person, or product shown is intended to be actual.</p>
+    <p style="margin:14px 0 0">© 2026 Neteru Freeman</p>
+  </div>
+</footer>
+</body>
+</html>

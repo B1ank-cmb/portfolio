@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Marguerite Vaillant — Ceramics &amp; Sculpture | Concept Build</title>
+<meta name="description" content="Concept build: a gallery-style portfolio where the work is loud and the interface is silent.">
+<style>
+:root{
+  --paper:#F7F5F1; --ink:#141414; --soft:#6E6A64; --line:#E0DCD5;
+  --accent:#8B3A2F; --max:1240px;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);
+  font:400 17px/1.7 "Helvetica Neue",Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 32px}
+@media(max-width:640px){.wrap{padding:0 20px}}
+a{color:inherit}
+h1,h2,h3{font-family:"Times New Roman",Georgia,serif;font-weight:400;letter-spacing:-.015em;line-height:1.12;margin:0}
+
+/* nav */
+header{position:sticky;top:0;z-index:40;background:rgba(247,245,241,.9);
+  backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.bar{display:flex;justify-content:space-between;align-items:baseline;padding:22px 0;gap:24px}
+.name{font-family:"Times New Roman",Georgia,serif;font-size:1.3rem;text-decoration:none;letter-spacing:.01em}
+.name em{font-style:italic;color:var(--soft)}
+nav{display:flex;gap:28px}
+nav a{text-decoration:none;font-size:.82rem;letter-spacing:.14em;text-transform:uppercase;color:var(--soft)}
+nav a:hover{color:var(--ink)}
+@media(max-width:640px){nav{gap:16px}nav a{font-size:.72rem;letter-spacing:.08em}}
+
+/* hero */
+.hero{padding:96px 0 64px;border-bottom:1px solid var(--line)}
+.hero h1{font-size:clamp(2.6rem,8vw,6rem);letter-spacing:-.03em}
+.hero h1 em{font-style:italic;color:var(--accent)}
+.hero .lede{max-width:52ch;margin:34px 0 0;font-size:1.12rem;color:var(--soft)}
+.meta{display:flex;gap:36px;flex-wrap:wrap;margin-top:44px;font-size:.82rem;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--soft)}
+
+/* works */
+section{padding:80px 0}
+.sec-label{font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;color:var(--soft);
+  margin-bottom:38px;padding-bottom:12px;border-bottom:1px solid var(--line);display:flex;
+  justify-content:space-between;align-items:baseline}
+.works{display:grid;gap:56px 32px;grid-template-columns:repeat(3,1fr)}
+@media(max-width:900px){.works{grid-template-columns:repeat(2,1fr);gap:44px 24px}}
+@media(max-width:560px){.works{grid-template-columns:1fr}}
+.work{cursor:pointer;border:0;background:none;padding:0;text-align:left;font:inherit;color:inherit;display:block;width:100%}
+.frame{aspect-ratio:4/5;background:#EAE6E0;position:relative;overflow:hidden;margin-bottom:16px}
+.frame canvas{width:100%;height:100%;display:block;transition:transform .7s cubic-bezier(.2,.7,.3,1)}
+.work:hover .frame canvas{transform:scale(1.04)}
+.work:focus-visible .frame{outline:2px solid var(--accent);outline-offset:3px}
+.work h3{font-size:1.22rem;font-style:italic}
+.work .det{font-size:.86rem;color:var(--soft);margin-top:4px}
+.tall{grid-row:span 2}
+.tall .frame{aspect-ratio:4/9}
+@media(max-width:560px){.tall{grid-row:auto}.tall .frame{aspect-ratio:4/5}}
+
+/* statement */
+#statement{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:#F1EEE8}
+.state-grid{display:grid;grid-template-columns:1fr 1.4fr;gap:56px}
+@media(max-width:820px){.state-grid{grid-template-columns:1fr;gap:28px}}
+.state-grid p{margin:0 0 20px}
+.pull{font-family:"Times New Roman",Georgia,serif;font-size:1.7rem;line-height:1.35;font-style:italic;
+  color:var(--accent);margin:0 0 24px}
+
+/* exhibitions */
+.exh{display:grid;grid-template-columns:110px 1fr auto;gap:20px;padding:18px 0;
+  border-bottom:1px solid var(--line);align-items:baseline}
+.exh .yr{font-size:.86rem;letter-spacing:.1em;color:var(--soft)}
+.exh .ti{font-family:"Times New Roman",Georgia,serif;font-size:1.1rem;font-style:italic}
+.exh .pl{font-size:.9rem;color:var(--soft);text-align:right}
+@media(max-width:640px){.exh{grid-template-columns:70px 1fr;gap:8px 16px}.exh .pl{grid-column:2;text-align:left}}
+
+/* contact */
+#contact{text-align:center}
+#contact h2{font-size:clamp(1.9rem,5vw,3.2rem)}
+#contact p{color:var(--soft);max-width:46ch;margin:22px auto 32px}
+.mail{display:inline-block;font-family:"Times New Roman",Georgia,serif;font-size:1.5rem;
+  color:var(--accent);text-decoration:none;border-bottom:1px solid var(--accent);padding-bottom:3px}
+
+footer{border-top:1px solid var(--line);padding:36px 0;font-size:.82rem;color:var(--soft)}
+.frow{display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px}
+.disclaimer{margin-top:22px;font-size:.78rem;color:#9A958D}
+
+/* lightbox */
+.lb{position:fixed;inset:0;background:rgba(20,20,20,.94);z-index:100;display:none;
+  place-items:center;padding:40px 20px}
+.lb.open{display:grid}
+.lb-inner{max-width:680px;width:100%;text-align:center}
+.lb canvas{width:100%;max-height:66vh;object-fit:contain;background:#EAE6E0}
+.lb h3{color:#F7F5F1;font-size:1.5rem;font-style:italic;margin-top:24px}
+.lb .det{color:#A9A49C;font-size:.9rem;margin-top:6px}
+.lb-close{position:absolute;top:22px;right:26px;background:none;border:0;color:#F7F5F1;
+  font-size:2rem;cursor:pointer;line-height:1}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap bar">
+    <a class="name" href="#">Marguerite Vaillant <em>— atelier</em></a>
+    <nav>
+      <a href="#works">Works</a>
+      <a href="#statement">Statement</a>
+      <a href="#exhibitions">Exhibitions</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="wrap">
+    <h1>Clay remembers<br>every <em>hand</em> that<br>touched it.</h1>
+    <p class="lede">Wheel-thrown and hand-built ceramic vessels, glazed in small batches from ash and local mineral. Studio in Hudson, New York. Work held in private collections across the US and Japan.</p>
+    <div class="meta">
+      <span>Est. 2011</span><span>Hudson, NY</span><span>Commissions open — Spring 2027</span>
+    </div>
+  </div>
+</div>
+
+<section id="works">
+  <div class="wrap">
+    <div class="sec-label"><span>Selected works</span><span>2019 — 2026</span></div>
+    <div class="works" id="works-grid"></div>
+  </div>
+</section>
+
+<section id="statement">
+  <div class="wrap state-grid">
+    <div class="sec-label" style="border:0;padding:0;margin:0">Statement</div>
+    <div>
+      <p class="pull">I am not interested in objects that look easy to make.</p>
+      <p>Every piece carries the record of its own making — the pull of the wheel, the place where a thumb pressed too hard, the way ash settled unevenly in the kiln. Industrial ceramics work to erase these. I work to keep them.</p>
+      <p>The glazes come from material gathered within a hundred miles of the studio: wood ash from a neighbor's stove, iron-rich clay from a creek bed two towns over, feldspar from a quarry that has been closed since 1974. This means no two firings are identical and roughly a third of what I make does not survive. That ratio is not a problem to be solved. It is the cost of the surface.</p>
+      <p>A vessel should be worth picking up. Everything else is secondary.</p>
+    </div>
+  </div>
+</section>
+
+<section id="exhibitions">
+  <div class="wrap">
+    <div class="sec-label"><span>Exhibitions &amp; press</span></div>
+    <div class="exh"><span class="yr">2026</span><span class="ti">Ash &amp; Iron — solo</span><span class="pl">Pierson Gallery, New York</span></div>
+    <div class="exh"><span class="yr">2025</span><span class="ti">The Slow Kiln — group</span><span class="pl">Mashiko Ceramic Museum, Japan</span></div>
+    <div class="exh"><span class="yr">2025</span><span class="ti">Feature: "The Quarry Glazes"</span><span class="pl">American Craft Quarterly</span></div>
+    <div class="exh"><span class="yr">2024</span><span class="ti">Hand / Held — two-person</span><span class="pl">Basin Projects, Hudson</span></div>
+    <div class="exh"><span class="yr">2023</span><span class="ti">Vessel Biennial</span><span class="pl">Cranbrook Art Museum, Michigan</span></div>
+    <div class="exh"><span class="yr">2021</span><span class="ti">Residency</span><span class="pl">Watershed Center, Maine</span></div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap">
+    <h2>Commissions &amp; enquiries</h2>
+    <p>Commission list opens each spring. Galleries and collectors, please write directly — I answer everything myself, though not always quickly.</p>
+    <a class="mail" href="mailto:studio@vaillant-atelier.com">studio@vaillant-atelier.com</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="frow">
+      <span>Marguerite Vaillant — Atelier, Hudson NY</span>
+      <span>Instagram · Are.na · Newsletter</span>
+    </div>
+    <p class="disclaimer">Concept build — Marguerite Vaillant is a fictional artist created to demonstrate portfolio and gallery web design. Artwork imagery is generated procedurally in-browser; no real artist, exhibition, or collection is represented.</p>
+  </div>
+</footer>
+
+<div class="lb" id="lb">
+  <button class="lb-close" aria-label="Close" onclick="closeLb()">×</button>
+  <div class="lb-inner">
+    <canvas id="lb-canvas" width="700" height="700"></canvas>
+    <h3 id="lb-title"></h3>
+    <div class="det" id="lb-det"></div>
+  </div>
+</div>
+
+<script>
+/* Works. Each piece gets a deterministic procedural "photograph" so the layout
+   can be judged with real visual weight instead of grey boxes. Swap paintPiece()
+   for <img> tags when actual photography exists. */
+const WORKS = [
+  {t:'Ash Vessel No. 7',  d:'Stoneware, wood ash glaze · 2026 · 34cm', seed:11, hue:28,  tall:true},
+  {t:'Quarry Bowl',       d:'Iron-bearing clay, unglazed · 2025 · 21cm', seed:23, hue:14},
+  {t:'Two Forms Leaning', d:'Porcelain, celadon · 2025 · 40cm', seed:37, hue:150},
+  {t:'Creek Bed I',       d:'Stoneware, local slip · 2024 · 18cm', seed:41, hue:38},
+  {t:'Night Firing',      d:'Stoneware, tenmoku · 2024 · 27cm', seed:53, hue:220, tall:true},
+  {t:'Unfinished Cylinder', d:'Raw clay, arrested · 2023 · 30cm', seed:67, hue:20},
+  {t:'Salt Study III',    d:'Salt-fired stoneware · 2023 · 16cm', seed:71, hue:44},
+  {t:'The Long Pour',     d:'Porcelain, ash runoff · 2019 · 52cm', seed:89, hue:8},
+];
+
+/* tiny seeded RNG so every render is identical */
+function rng(seed){let s=seed;return()=>((s=s*16807%2147483647)-1)/2147483646}
+
+function paintPiece(cv,{seed,hue}){
+  const c=cv.getContext('2d'),W=cv.width,H=cv.height,r=rng(seed);
+  // ground
+  const g=c.createLinearGradient(0,0,0,H);
+  g.addColorStop(0,`hsl(${hue+8} 12% 91%)`); g.addColorStop(1,`hsl(${hue} 10% 82%)`);
+  c.fillStyle=g; c.fillRect(0,0,W,H);
+  // soft floor shadow
+  c.fillStyle='rgba(0,0,0,.07)';
+  c.beginPath(); c.ellipse(W/2,H*.84,W*.30,H*.035,0,0,7); c.fill();
+  // Vessel silhouette. Every control point varies with the seed, so pieces
+  // differ in proportion — squat bowls, tall bottles, flared cylinders — rather
+  // than being one shape recoloured.
+  const squat = r();                                  // 0 = tall bottle, 1 = low bowl
+  const top   = H*(.13 + squat*.34);
+  const bot   = H*(.86 - squat*.03);
+  const belly = W*(.17 + r()*.17 + squat*.08);
+  const neck  = belly*(.22 + r()*.72);                // narrow bottle → open bowl
+  const foot  = belly*(.34 + r()*.46);
+  const shoulder = .22 + r()*.30;                     // where the widest point sits
+  const flare = (r()-.5)*.34;                         // rim turning out or in
+  const cx = W/2;
+  const yS = top + (bot-top)*shoulder;
+  const yW = top + (bot-top)*(shoulder+.28);
+  c.beginPath();
+  c.moveTo(cx-neck*(1+flare), top);
+  c.bezierCurveTo(cx-belly*1.02, yS, cx-belly, yW, cx-foot, bot);
+  c.lineTo(cx+foot, bot);
+  c.bezierCurveTo(cx+belly, yW, cx+belly*1.02, yS, cx+neck*(1+flare), top);
+  c.closePath();
+  const bg=c.createLinearGradient(cx-belly,0,cx+belly,0);
+  bg.addColorStop(0,   `hsl(${hue} 26% 26%)`);
+  bg.addColorStop(.32, `hsl(${hue} 30% 47%)`);
+  bg.addColorStop(.55, `hsl(${hue} 24% 38%)`);
+  bg.addColorStop(1,   `hsl(${hue} 22% 20%)`);
+  c.fillStyle=bg; c.fill();
+  // ash speckle, clipped to the vessel
+  c.save(); c.clip();
+  for(let i=0;i<900;i++){
+    const x=cx-belly*1.2+r()*belly*2.4, y=top+r()*(bot-top);
+    c.fillStyle=`hsla(${hue+r()*30-15} ${20+r()*40}% ${35+r()*45}% / ${r()*.30})`;
+    c.beginPath(); c.arc(x,y,r()*2.6,0,7); c.fill();
+  }
+  // glaze runs
+  for(let i=0;i<7;i++){
+    const x=cx-belly*.9+r()*belly*1.8;
+    c.fillStyle=`hsla(${hue+10} 30% 78% / ${.05+r()*.13})`;
+    c.fillRect(x,top,3+r()*11,(bot-top)*(.35+r()*.6));
+  }
+  // rim highlight
+  c.strokeStyle=`hsl(${hue} 20% 72%)`; c.lineWidth=2.5;
+  c.beginPath(); c.ellipse(cx,top,neck,neck*.20,0,0,7); c.stroke();
+  c.restore();
+}
+
+const grid=document.getElementById('works-grid');
+WORKS.forEach((w,i)=>{
+  const b=document.createElement('button');
+  b.className='work'+(w.tall?' tall':'');
+  b.innerHTML=`<div class="frame"><canvas width="560" height="700"></canvas></div>
+               <h3>${w.t}</h3><div class="det">${w.d}</div>`;
+  paintPiece(b.querySelector('canvas'),w);
+  b.onclick=()=>openLb(i);
+  grid.appendChild(b);
+});
+
+const lb=document.getElementById('lb');
+function openLb(i){
+  const w=WORKS[i];
+  paintPiece(document.getElementById('lb-canvas'),w);
+  document.getElementById('lb-title').textContent=w.t;
+  document.getElementById('lb-det').textContent=w.d;
+  lb.classList.add('open');
+}
+function closeLb(){lb.classList.remove('open')}
+lb.onclick=e=>{if(e.target===lb)closeLb()};
+addEventListener('keydown',e=>{if(e.key==='Escape')closeLb()});
+</script>
+</body>
+</html>

@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bird &amp; Bun — Hand Breaded. Big Flavor. | Miami Food Truck</title>
+<meta name="description" content="Bird &amp; Bun is a Miami food truck serving hand-breaded chicken sandwiches. Find this week's stops, our rotating menu, and how to book us.">
+<style>
+:root{
+  --blue:#3F5F8A; --blue-dk:#2C4363; --cream:#F3E9D6; --cream-dk:#E7D9BF;
+  --gold:#D6A241; --ink:#33291F; --ink-soft:#6B5B49; --white:#FFFCF6;
+  --shadow:0 2px 8px rgba(51,41,31,.10), 0 12px 32px rgba(51,41,31,.08);
+  --radius:14px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; background:var(--cream); color:var(--ink);
+  font:400 17px/1.65 ui-sans-serif,system-ui,"Segoe UI",Helvetica,Arial,sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+img{max-width:100%;display:block}
+a{color:var(--blue)}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+h1,h2,h3,.brand{font-family:Georgia,"Iowan Old Style",serif;letter-spacing:-.01em}
+
+/* ---------- header ---------- */
+header{position:sticky;top:0;z-index:50;background:var(--cream);border-bottom:1px solid var(--cream-dk)}
+.bar{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px 0}
+.brand{font-size:1.35rem;font-weight:700;color:var(--blue);text-decoration:none;line-height:1.1}
+.brand small{display:block;font:600 .58rem/1.4 ui-sans-serif,system-ui,sans-serif;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--gold)}
+nav{display:flex;gap:22px;align-items:center}
+nav a{color:var(--ink);text-decoration:none;font-size:.95rem;font-weight:500}
+nav a:hover{color:var(--blue)}
+.btn{display:inline-block;background:var(--blue);color:var(--white);text-decoration:none;
+  padding:11px 20px;border-radius:999px;font-weight:600;font-size:.95rem;border:0;cursor:pointer}
+.btn:hover{background:var(--blue-dk)}
+.btn.ghost{background:transparent;color:var(--blue);box-shadow:inset 0 0 0 2px var(--blue)}
+.menu-toggle{display:none;background:none;border:0;font-size:1.6rem;color:var(--blue);cursor:pointer;padding:4px 8px}
+@media(max-width:760px){
+  nav{position:absolute;top:100%;left:0;right:0;background:var(--cream);flex-direction:column;
+    align-items:stretch;gap:0;padding:8px 20px 20px;border-bottom:1px solid var(--cream-dk);display:none}
+  nav.open{display:flex}
+  nav a{padding:12px 0;border-bottom:1px solid var(--cream-dk)}
+  nav .btn{margin-top:12px;text-align:center;border-bottom:0}
+  .menu-toggle{display:block}
+}
+
+/* ---------- hero ---------- */
+.hero{background:var(--blue);color:var(--white);padding:64px 0 72px;position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;inset:auto 0 -1px 0;height:26px;background:var(--cream);
+  clip-path:polygon(0 60%,4% 30%,9% 65%,14% 25%,20% 60%,26% 30%,32% 68%,38% 28%,45% 62%,52% 26%,58% 66%,64% 30%,70% 62%,77% 28%,83% 64%,89% 30%,95% 62%,100% 34%,100% 100%,0 100%)}
+.hero h1{font-size:clamp(2.3rem,6.5vw,3.9rem);margin:0 0 14px;line-height:1.06}
+.hero p{font-size:1.12rem;max-width:44ch;color:#E3ECF7;margin:0 0 28px}
+.eyebrow{display:inline-block;background:var(--gold);color:var(--ink);font:700 .68rem/1 ui-sans-serif,system-ui,sans-serif;
+  letter-spacing:.16em;text-transform:uppercase;padding:8px 14px;border-radius:999px;margin-bottom:20px}
+.hero-cta{display:flex;gap:12px;flex-wrap:wrap}
+.hero .btn{background:var(--gold);color:var(--ink)}
+.hero .btn:hover{background:#C08F31}
+.hero .btn.ghost{background:transparent;color:var(--white);box-shadow:inset 0 0 0 2px rgba(255,255,255,.55)}
+
+/* ---------- sections ---------- */
+section{padding:60px 0}
+.sec-head{margin-bottom:28px}
+.sec-head h2{font-size:clamp(1.7rem,4vw,2.4rem);margin:0 0 6px;color:var(--blue)}
+.sec-head p{margin:0;color:var(--ink-soft)}
+.theme-tag{display:inline-block;background:var(--cream-dk);color:var(--ink-soft);
+  font:600 .72rem/1 ui-sans-serif,system-ui,sans-serif;letter-spacing:.1em;text-transform:uppercase;
+  padding:7px 12px;border-radius:999px;margin-bottom:12px}
+
+/* menu */
+.grid{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(270px,1fr))}
+.card{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px;position:relative}
+.card h3{margin:0 0 6px;font-size:1.22rem}
+.card .price{float:right;font-weight:700;color:var(--blue);font-family:ui-sans-serif,system-ui,sans-serif}
+.card p{margin:0;color:var(--ink-soft);font-size:.96rem}
+.flag{position:absolute;top:-10px;left:18px;background:var(--gold);color:var(--ink);
+  font:700 .64rem/1 ui-sans-serif,system-ui,sans-serif;letter-spacing:.12em;text-transform:uppercase;
+  padding:7px 11px;border-radius:999px}
+.card.new{box-shadow:0 0 0 2px var(--gold), var(--shadow)}
+
+/* schedule */
+#stops{background:var(--white)}
+.stops{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.stop{display:grid;grid-template-columns:64px 1fr auto;gap:16px;align-items:center;
+  background:var(--cream);border-radius:var(--radius);padding:16px 18px}
+.stop .day{background:var(--blue);color:var(--white);border-radius:10px;text-align:center;padding:8px 0;
+  font:700 .8rem/1.2 ui-sans-serif,system-ui,sans-serif;letter-spacing:.08em;text-transform:uppercase}
+.stop .where{font-weight:600}
+.stop .addr{font-size:.88rem;color:var(--ink-soft)}
+.stop .time{font-weight:600;color:var(--blue);white-space:nowrap;font-size:.95rem}
+.stop.today{box-shadow:inset 0 0 0 2px var(--gold)}
+.stop.today .day{background:var(--gold);color:var(--ink)}
+@media(max-width:560px){
+  .stop{grid-template-columns:56px 1fr;row-gap:6px}
+  .stop .time{grid-column:2;justify-self:start}
+}
+
+/* about + reviews */
+.two{display:grid;gap:32px;grid-template-columns:1.15fr .85fr;align-items:start}
+@media(max-width:820px){.two{grid-template-columns:1fr}}
+.quote{background:var(--white);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow);margin-bottom:14px}
+.quote p{margin:0 0 10px;font-style:italic}
+.quote .who{font-size:.88rem;color:var(--ink-soft);font-style:normal}
+.stars{color:var(--gold);letter-spacing:2px}
+
+/* booking */
+#book{background:var(--blue);color:var(--white)}
+#book .sec-head h2{color:var(--white)}
+#book .sec-head p{color:#D9E4F2}
+form{display:grid;gap:14px;max-width:560px}
+.row{display:grid;gap:14px;grid-template-columns:1fr 1fr}
+@media(max-width:560px){.row{grid-template-columns:1fr}}
+label{font-size:.85rem;font-weight:600;letter-spacing:.04em;text-transform:uppercase;display:block;margin-bottom:6px;color:#D9E4F2}
+input,textarea,select{width:100%;padding:12px 14px;border-radius:10px;border:0;font:inherit;
+  background:var(--white);color:var(--ink)}
+textarea{min-height:110px;resize:vertical}
+#book .btn{background:var(--gold);color:var(--ink);justify-self:start}
+.form-note{font-size:.85rem;color:#C9D8EA;margin:0}
+
+/* footer */
+footer{background:var(--ink);color:var(--cream-dk);padding:40px 0 32px;font-size:.92rem}
+footer .cols{display:flex;gap:32px;flex-wrap:wrap;justify-content:space-between}
+footer a{color:var(--gold);text-decoration:none}
+footer .brand{color:var(--cream)}
+.legal{margin-top:24px;padding-top:18px;border-top:1px solid #4A3C2E;color:#9A8974;font-size:.84rem}
+.skip{position:absolute;left:-9999px}
+.skip:focus{left:12px;top:12px;background:var(--gold);color:var(--ink);padding:10px 16px;border-radius:8px;z-index:100}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header>
+  <div class="wrap bar">
+    <a class="brand" href="#">Bird &amp; Bun<small>Hand Breaded · Big Flavor</small></a>
+    <button class="menu-toggle" aria-label="Menu" aria-expanded="false" onclick="var n=document.getElementById('nav');n.classList.toggle('open');this.setAttribute('aria-expanded',n.classList.contains('open'))">☰</button>
+    <nav id="nav">
+      <a href="#menu">Menu</a>
+      <a href="#stops">Find Us</a>
+      <a href="#about">Our Story</a>
+      <a class="btn" href="#book">Book the Truck</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+<div class="hero">
+  <div class="wrap">
+    <span class="eyebrow" id="hero-theme"></span>
+    <h1>Hand breaded.<br>Big flavor.</h1>
+    <p>A Miami food truck built on crispy chicken, house pickles, and a menu that changes with our mood. Catch us somewhere new every week.</p>
+    <div class="hero-cta">
+      <a class="btn" href="#stops">See this week's stops</a>
+      <a class="btn ghost" href="#menu">View the menu</a>
+    </div>
+  </div>
+</div>
+
+<section id="menu">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="theme-tag" id="menu-theme"></span>
+      <h2>This week's menu</h2>
+      <p id="menu-note"></p>
+    </div>
+    <div class="grid" id="menu-grid"></div>
+  </div>
+</section>
+
+<section id="stops">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Where we're parked</h2>
+      <p>Schedule updates every Sunday night. Follow <a href="#">@birdandbuntruck</a> for same-day changes.</p>
+    </div>
+    <ul class="stops" id="stops-list"></ul>
+  </div>
+</section>
+
+<section id="about">
+  <div class="wrap two">
+    <div>
+      <div class="sec-head"><h2>Good chicken, good people, good day</h2></div>
+      <p>We're a small crew with a big love for good food. Every sandwich is breaded by hand to order — no heat lamps, no shortcuts, no sitting around waiting for a customer.</p>
+      <p>The menu rotates every few weeks because we get bored, and because Miami deserves better than the same sandwich forever. Some things stay (the Classic isn't going anywhere). Everything else is fair game.</p>
+      <p>Thanks for supporting our dream and letting us do what we love every day.</p>
+      <p style="color:var(--ink-soft)"><strong>— The Bird &amp; Bun Crew</strong></p>
+    </div>
+    <div>
+      <div class="sec-head"><h2 style="font-size:1.4rem">Word on the street</h2></div>
+      <div id="reviews"></div>
+    </div>
+  </div>
+</section>
+
+<section id="book">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Book the truck</h2>
+      <p>Parties, office lunches, weddings, block parties. Tell us what you've got in mind.</p>
+    </div>
+    <form onsubmit="event.preventDefault();this.querySelector('.btn').textContent='Thanks — we\'ll be in touch!'">
+      <div class="row">
+        <div><label for="f-name">Your name</label><input id="f-name" required></div>
+        <div><label for="f-email">Email</label><input id="f-email" type="email" required></div>
+      </div>
+      <div class="row">
+        <div><label for="f-date">Event date</label><input id="f-date" type="date"></div>
+        <div><label for="f-count">Headcount</label>
+          <select id="f-count"><option>Under 25</option><option>25–75</option><option>75–150</option><option>150+</option></select>
+        </div>
+      </div>
+      <div><label for="f-msg">Tell us about it</label><textarea id="f-msg"></textarea></div>
+      <button class="btn" type="submit">Send request</button>
+      <p class="form-note">We reply within one business day. Miami-Dade and Broward, plus travel by arrangement.</p>
+    </form>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <div class="brand" style="font-size:1.2rem;font-weight:700">Bird &amp; Bun</div>
+        <p style="margin:6px 0 0">Hand breaded. Big flavor.<br>Miami, FL</p>
+      </div>
+      <div>
+        <strong style="color:var(--cream)">Find us</strong>
+        <p style="margin:6px 0 0"><a href="#">Instagram</a> · <a href="#">TikTok</a> · <a href="#">Facebook</a></p>
+      </div>
+      <div>
+        <strong style="color:var(--cream)">Get in touch</strong>
+        <p style="margin:6px 0 0"><a href="#book">Book the truck</a><br><a href="mailto:hello@birdandbun.com">hello@birdandbun.com</a></p>
+      </div>
+    </div>
+    <div class="legal">
+      Demo build — Bird &amp; Bun brand assets used for evaluation only. All content below the fold is editable from one file.
+    </div>
+  </div>
+</footer>
+
+<script>
+/* =====================================================================
+   THE ONLY THING THE OWNERS EVER TOUCH.
+   Change the values below, save, done. This is the shape that becomes
+   the CMS schema in the real build — every field here maps 1:1 to a
+   field in Sanity, so nothing about this page has to be rewritten.
+   ===================================================================== */
+const SITE = {
+
+  theme: "Week of Aug 10 · Hot Honey",
+  menuNote: "Served with waffle fries. Swap any sandwich to a lettuce wrap, no charge.",
+
+  menu: [
+    { name:"The Classic", price:"$12", isNew:false, flag:"Our Signature",
+      desc:"Crispy chicken, house pickles, creamy slaw. Made to order." },
+    { name:"Hot Honey Chicken", price:"$14", isNew:true, flag:"New",
+      desc:"Crispy chicken, hot honey drizzle, house pickles & creamy slaw on a toasted bun." },
+    { name:"Bun Day Tuesday", price:"$9", isNew:false, flag:"Tuesdays Only",
+      desc:"Crispy chicken sandwich, weekly special sauce drop. All day, every Tuesday." },
+    { name:"Loaded Waffle Fries", price:"$8", isNew:false, flag:"",
+      desc:"Waffle fries, comeback sauce, pickled onion, scallion." },
+    { name:"Slaw & Pickle Plate", price:"$6", isNew:false, flag:"Veg",
+      desc:"House pickles, creamy slaw, toasted bun. Simple and cold." },
+    { name:"Sweet Tea", price:"$3", isNew:false, flag:"",
+      desc:"Brewed daily. Unsweet available if you insist." }
+  ],
+
+  stops: [
+    { day:"Tue", where:"Downtown Plaza",  addr:"200 S Biscayne Blvd", time:"11am – 2pm" },
+    { day:"Wed", where:"Brewery Night",   addr:"Veza Sur Brewing Co.", time:"5pm – 9pm" },
+    { day:"Thu", where:"Office Park Lunch", addr:"Blue Lagoon Dr",     time:"11am – 2pm" },
+    { day:"Fri", where:"Riverfront Market", addr:"SW 2nd Ave",         time:"4pm – 9pm" },
+    { day:"Sat", where:"Wynwood Yard",    addr:"NW 2nd Ave",           time:"12pm – 10pm" }
+  ],
+
+  reviews: [
+    { stars:5, text:"Best chicken sandwich in town. I drove 40 minutes and would do it again.", who:"— Sarah T." },
+    { stars:5, text:"The hot honey one ruined every other sandwich for me. Thanks a lot.", who:"— Marcus R." },
+    { stars:5, text:"Booked them for our office. Forty people, zero complaints, which never happens.", who:"— Priya N." }
+  ]
+};
+
+/* ---------- render ---------- */
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+document.getElementById('hero-theme').textContent = SITE.theme;
+document.getElementById('menu-theme').textContent = SITE.theme;
+document.getElementById('menu-note').textContent = SITE.menuNote;
+
+document.getElementById('menu-grid').innerHTML = SITE.menu.map(i => `
+  <article class="card${i.isNew ? ' new' : ''}">
+    ${i.flag ? `<span class="flag">${esc(i.flag)}</span>` : ''}
+    <h3><span class="price">${esc(i.price)}</span>${esc(i.name)}</h3>
+    <p>${esc(i.desc)}</p>
+  </article>`).join('');
+
+const DAYS = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+const today = DAYS[new Date().getDay()];
+document.getElementById('stops-list').innerHTML = SITE.stops.map(s => `
+  <li class="stop${s.day === today ? ' today' : ''}">
+    <span class="day">${esc(s.day)}</span>
+    <span><span class="where">${esc(s.where)}</span><br><span class="addr">${esc(s.addr)}</span></span>
+    <span class="time">${esc(s.time)}</span>
+  </li>`).join('');
+
+document.getElementById('reviews').innerHTML = SITE.reviews.map(r => `
+  <div class="quote">
+    <div class="stars" aria-label="${r.stars} out of 5">${'★'.repeat(r.stars)}</div>
+    <p>${esc(r.text)}</p>
+    <div class="who">${esc(r.who)}</div>
+  </div>`).join('');
+</script>
+</body>
+</html>
