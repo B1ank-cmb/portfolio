@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sync Engine — Live Demo</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --bg:#0b0e14; --panel:#131822; --panel2:#171d29; --line:#232b3a;
+    --tx:#e6edf7; --dim:#8b97ab; --dimmer:#5d6779;
+    --a:#4c9aff; --ok:#3fb950; --warn:#d29922; --err:#f85149; --purple:#a371f7;
+    --mono:'SF Mono',Menlo,Consolas,monospace;
+  }
+  body{background:var(--bg);color:var(--tx);font:14px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;padding:22px;min-height:100vh}
+  .wrap{max-width:1240px;margin:0 auto}
+
+  header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:14px}
+  .brand{display:flex;align-items:center;gap:12px}
+  .logo{width:38px;height:38px;border-radius:9px;background:linear-gradient(135deg,var(--a),var(--purple));display:grid;place-items:center;font-weight:800;font-size:17px}
+  h1{font-size:19px;font-weight:650;letter-spacing:-.2px}
+  .sub{color:var(--dim);font-size:12.5px;margin-top:1px}
+  .live{display:flex;align-items:center;gap:7px;background:var(--panel);border:1px solid var(--line);padding:7px 13px;border-radius:20px;font-size:12.5px;color:var(--dim)}
+  .dot{width:7px;height:7px;border-radius:50%;background:var(--ok);animation:p 1.8s infinite}
+  @keyframes p{0%,100%{opacity:1}50%{opacity:.3}}
+
+  .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin-bottom:16px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:11px;padding:15px 16px}
+  .card .lbl{color:var(--dim);font-size:11.5px;text-transform:uppercase;letter-spacing:.55px;margin-bottom:7px}
+  .card .val{font-size:26px;font-weight:680;font-variant-numeric:tabular-nums;letter-spacing:-.5px}
+  .card .meta{font-size:11.5px;color:var(--dimmer);margin-top:3px}
+  .g{color:var(--ok)} .y{color:var(--warn)} .r{color:var(--err)} .b{color:var(--a)}
+
+  .main{display:grid;grid-template-columns:1fr 1.35fr;gap:13px;margin-bottom:13px}
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:11px;overflow:hidden}
+  .ph{padding:12px 16px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}
+  .pt{font-size:13px;font-weight:620}
+  .pb{padding:16px}
+
+  /* flow */
+  .flow{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 0 16px}
+  .node{flex:1;text-align:center}
+  .box{background:var(--panel2);border:1.5px solid var(--line);border-radius:10px;padding:15px 8px;transition:.25s}
+  .box.hot{border-color:var(--a);box-shadow:0 0 0 3px rgba(76,154,255,.13)}
+  .box .ic{font-size:21px;margin-bottom:5px}
+  .box .nm{font-size:12.5px;font-weight:600}
+  .box .st{font-size:10.5px;color:var(--dim);margin-top:2px}
+  .arrows{width:74px;display:flex;flex-direction:column;gap:7px;align-items:center}
+  .arw{font-size:17px;color:var(--dimmer);transition:.2s;font-family:var(--mono)}
+  .arw.on{color:var(--a);text-shadow:0 0 12px rgba(76,154,255,.6)}
+  .arw.blocked{color:var(--err)}
+
+  .engine{background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:13px;margin-top:4px}
+  .erow{display:flex;align-items:center;justify-content:space-between;padding:7px 0;font-size:12.5px;border-bottom:1px solid rgba(35,43,58,.6)}
+  .erow:last-child{border:0}
+  .erow .k{color:var(--dim);display:flex;align-items:center;gap:7px}
+  .erow .v{font-family:var(--mono);font-size:12px}
+  .chip{display:inline-block;padding:1px 7px;border-radius:4px;font-size:10.5px;font-weight:600}
+  .chip.ok{background:rgba(63,185,80,.15);color:var(--ok)}
+  .chip.blk{background:rgba(248,81,73,.15);color:var(--err)}
+
+  /* log */
+  .log{height:326px;overflow-y:auto;font-family:var(--mono);font-size:11.5px;padding:10px 14px}
+  .log::-webkit-scrollbar{width:7px}
+  .log::-webkit-scrollbar-thumb{background:#2a3346;border-radius:4px}
+  .le{padding:5px 0;border-bottom:1px solid rgba(35,43,58,.45);display:flex;gap:9px;animation:in .25s}
+  @keyframes in{from{opacity:0;transform:translateY(-3px)}to{opacity:1;transform:none}}
+  .ts{color:var(--dimmer);flex-shrink:0}
+  .tag{flex-shrink:0;font-weight:700;width:60px}
+  .msg{color:#c9d4e3;flex:1}
+  .t-sync{color:var(--a)} .t-ok{color:var(--ok)} .t-blk{color:var(--err)}
+  .t-retry{color:var(--warn)} .t-map{color:var(--purple)}
+
+  table{width:100%;border-collapse:collapse;font-size:12.5px}
+  th{text-align:left;padding:8px 16px;color:var(--dim);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--line)}
+  td{padding:9px 16px;border-bottom:1px solid rgba(35,43,58,.5);font-family:var(--mono);font-size:11.5px}
+  tr:last-child td{border:0}
+  .st-b{display:inline-flex;align-items:center;gap:5px;padding:2px 8px;border-radius:11px;font-size:10.5px;font-weight:600;font-family:-apple-system,sans-serif}
+  .st-b.s{background:rgba(63,185,80,.13);color:var(--ok)}
+  .st-b.e{background:rgba(248,81,73,.13);color:var(--err)}
+  .st-b.p{background:rgba(210,153,34,.13);color:var(--warn)}
+  .qty{font-weight:700}
+  .flash{animation:fl .8s}
+  @keyframes fl{0%{background:rgba(76,154,255,.18)}100%{background:transparent}}
+
+  footer{margin-top:16px;padding-top:14px;border-top:1px solid var(--line);display:flex;justify-content:space-between;color:var(--dimmer);font-size:11.5px;flex-wrap:wrap;gap:8px}
+  @media(max-width:980px){.grid{grid-template-columns:repeat(2,1fr)}.main{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="brand">
+      <div class="logo">S</div>
+      <div>
+        <h1>Sync Engine</h1>
+        <div class="sub">Bidirectional inventory sync · loop-safe · idempotent</div>
+      </div>
+    </div>
+    <div class="live"><span class="dot"></span> Live · <span id="up">0</span>s uptime</div>
+  </header>
+
+  <div class="grid">
+    <div class="card"><div class="lbl">Synced Products</div><div class="val b" id="m1">0</div><div class="meta">of 10,000 catalog</div></div>
+    <div class="card"><div class="lbl">Events / min</div><div class="val g" id="m2">0</div><div class="meta">webhook throughput</div></div>
+    <div class="card"><div class="lbl">Loops Blocked</div><div class="val r" id="m3">0</div><div class="meta">echo suppression</div></div>
+    <div class="card"><div class="lbl">Avg Latency</div><div class="val y" id="m4">0<span style="font-size:15px">ms</span></div><div class="meta">event → write</div></div>
+  </div>
+
+  <div class="main">
+    <div class="panel">
+      <div class="ph"><span class="pt">Sync Topology</span><span style="font-size:11px;color:var(--dim)" id="dir">idle</span></div>
+      <div class="pb">
+        <div class="flow">
+          <div class="node"><div class="box" id="bxA"><div class="ic">🛍️</div><div class="nm">Shopify</div><div class="st">master catalog</div></div></div>
+          <div class="arrows">
+            <span class="arw" id="ar1">──▶</span>
+            <span class="arw" id="ar2">◀──</span>
+          </div>
+          <div class="node"><div class="box" id="bxB"><div class="ic">🏪</div><div class="nm">Square POS</div><div class="st">in-store</div></div></div>
+        </div>
+
+        <div class="engine">
+          <div class="erow"><span class="k">Echo table (TTL 30s)</span><span class="v" id="e1">0 entries</span></div>
+          <div class="erow"><span class="k">Event ID dedupe</span><span class="v" id="e2">0 dropped</span></div>
+          <div class="erow"><span class="k">Compare-before-write</span><span class="v"><span class="chip ok">converging</span></span></div>
+          <div class="erow"><span class="k">Rate limiter</span><span class="v" id="e3">0 / 40 buckets</span></div>
+          <div class="erow"><span class="k">Retry queue</span><span class="v" id="e4">0 pending</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="ph"><span class="pt">Event Stream</span><span style="font-size:11px;color:var(--dim)">tail -f sync.log</span></div>
+      <div class="log" id="log"></div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="ph"><span class="pt">Product Mappings</span><span style="font-size:11px;color:var(--dim)">shopify_variant ↔ square_variation</span></div>
+    <table>
+      <thead><tr><th>SKU</th><th>Product</th><th>Shopify</th><th>Square</th><th>Mapping</th><th>Status</th></tr></thead>
+      <tbody id="tb"></tbody>
+    </table>
+  </div>
+
+  <footer>
+    <span>Demo build — simulated event stream. Production system runs Node/TypeScript + Postgres.</span>
+    <span>Neteru Freeman · b1ank-cmb.github.io/portfolio</span>
+  </footer>
+</div>
+
+<script>
+const P=[
+ {sku:'FL-ESP-250',n:'Espresso Blend 250g',q:48,s:'s'},
+ {sku:'FL-OLV-500',n:'Olive Oil 500ml',q:112,s:'s'},
+ {sku:'FL-HNY-340',n:'Raw Honey 340g',q:27,s:'s'},
+ {sku:'FL-CHO-100',n:'Dark Chocolate 100g',q:203,s:'s'},
+ {sku:'FL-TEA-050',n:'Loose Leaf Tea 50g',q:8,s:'p'},
+ {sku:'FL-JAM-220',n:'Fig Preserve 220g',q:64,s:'s'},
+ {sku:'FL-SLT-150',n:'Sea Salt Flakes 150g',q:0,s:'e'}
+];
+let synced=1847,blocked=0,dropped=0,echo=0,evmin=0,lat=42,up=0,retry=0,bucket=0;
+const $=i=>document.getElementById(i);
+
+function drawTable(hi){
+  $('tb').innerHTML=P.map((p,i)=>{
+    const st=p.s==='s'?'<span class="st-b s">✓ synced</span>':p.s==='e'?'<span class="st-b e">✕ error</span>':'<span class="st-b p">◷ pending</span>';
+    return `<tr class="${i===hi?'flash':''}">
+      <td style="color:var(--a)">${p.sku}</td>
+      <td style="font-family:-apple-system,sans-serif;color:var(--tx)">${p.n}</td>
+      <td class="qty">${p.q}</td>
+      <td class="qty">${p.s==='e'?'—':p.q}</td>
+      <td style="color:var(--dimmer);font-size:10.5px">${p.s==='e'?'unresolved':'sq_var_'+(48210+i*137)}</td>
+      <td>${st}</td></tr>`;
+  }).join('');
+}
+
+function log(tag,cls,msg){
+  const d=new Date(),t=d.toTimeString().slice(0,8)+'.'+String(d.getMilliseconds()).padStart(3,'0');
+  const e=document.createElement('div');
+  e.className='le';
+  e.innerHTML=`<span class="ts">${t}</span><span class="tag ${cls}">${tag}</span><span class="msg">${msg}</span>`;
+  const L=$('log'); L.insertBefore(e,L.firstChild);
+  while(L.children.length>60) L.removeChild(L.lastChild);
+}
+
+function pulse(dir){
+  const a=dir==='fwd'?'ar1':'ar2', from=dir==='fwd'?'bxA':'bxB', to=dir==='fwd'?'bxB':'bxA';
+  $(a).classList.add('on'); $(from).classList.add('hot');
+  $('dir').textContent = dir==='fwd' ? 'Shopify → Square' : 'Square → Shopify';
+  setTimeout(()=>{ $(a).classList.remove('on'); $(from).classList.remove('hot'); $(to).classList.add('hot');
+    setTimeout(()=>{ $(to).classList.remove('hot'); $('dir').textContent='idle'; },260); },300);
+}
+
+function blockEcho(){
+  $('ar2').classList.add('blocked'); $('ar2').textContent='◀╳─';
+  setTimeout(()=>{ $('ar2').classList.remove('blocked'); $('ar2').textContent='◀──'; },700);
+}
+
+const scenes=[
+ ()=>{ const i=Math.floor(Math.random()*4), p=P[i];
+   if(p.q<=0) return;
+   log('SQUARE','t-sync',`inventory.count.updated · ${p.sku} · ${p.q} → ${p.q-1}`);
+   pulse('rev'); p.q--; drawTable(i);
+   setTimeout(()=>{ echo++; $('e1').textContent=echo+' entries';
+     log('WRITE','t-ok',`shopify.inventoryAdjustQuantities · ${p.sku} → ${p.q} · idem_key=${Math.random().toString(36).slice(2,10)}`); },380);
+   setTimeout(()=>{ blocked++; $('m3').textContent=blocked; blockEcho();
+     log('BLOCK','t-blk',`echo suppressed · ${p.sku} · matched outbound write 412ms ago`); },900);
+   setTimeout(()=>{ echo--; $('e1').textContent=echo+' entries'; },2600);
+ },
+ ()=>{ const i=Math.floor(Math.random()*4), p=P[i];
+   if(p.q<=0) return;
+   log('SHOPIFY','t-sync',`inventory_levels/update · ${p.sku} · ${p.q} → ${p.q-1}`);
+   pulse('fwd'); p.q--; drawTable(i);
+   setTimeout(()=>{ echo++; $('e1').textContent=echo+' entries';
+     log('WRITE','t-ok',`square.batchChangeInventory · ${p.sku} → ${p.q}`); },380);
+   setTimeout(()=>{ blocked++; $('m3').textContent=blocked; blockEcho();
+     log('BLOCK','t-blk',`echo suppressed · ${p.sku} · loop prevented`); },880);
+   setTimeout(()=>{ echo--; $('e1').textContent=echo+' entries'; },2600);
+ },
+ ()=>{ const p=P[Math.floor(Math.random()*4)];
+   log('SHOPIFY','t-sync',`inventory_levels/update · ${p.sku} · ${p.q} → ${p.q}`);
+   setTimeout(()=>log('SKIP','t-ok',`compare-before-write · ${p.sku} already ${p.q} · no-op, converged`),300);
+ },
+ ()=>{ dropped++; $('e2').textContent=dropped+' dropped';
+   log('DEDUPE','t-ok',`duplicate delivery · evt_${Math.random().toString(36).slice(2,12)} · already processed`);
+ },
+ ()=>{ const p=P[Math.floor(Math.random()*4)];
+   retry++; $('e4').textContent=retry+' pending';
+   log('RETRY','t-retry',`square 429 rate limit · ${p.sku} · backoff 1.2s · attempt 1/5`);
+   setTimeout(()=>{ retry--; $('e4').textContent=retry+' pending';
+     log('WRITE','t-ok',`retry succeeded · ${p.sku} · idempotent, no double-adjust`); },1500);
+ },
+ ()=>{ synced++; $('m1').textContent=synced.toLocaleString();
+   const sk='FL-'+['BRD','CFE','SPC','NUT','OIL'][Math.floor(Math.random()*5)]+'-'+(100+Math.floor(Math.random()*800));
+   log('TAG+','t-map',`SQUARE tag added · ${sk} · searching Square by SKU/barcode`);
+   setTimeout(()=>log('MAP','t-map',`no match found · created square item · mapping stored`),450);
+   setTimeout(()=>log('TAG+','t-ok',`SQUARE-SYNCED written back to Shopify · ${sk}`),820);
+ },
+ ()=>{ const p=P[Math.floor(Math.random()*4)];
+   log('TAG−','t-map',`SQUARE tag removed · ${p.sku} · sync disabled`);
+   setTimeout(()=>log('TAG−','t-ok',`mapping preserved · no delete · no inventory change`),400);
+ },
+ ()=>{ log('MATCH','t-blk',`FL-SLT-150 · 2 possible Square matches · will not guess`);
+   setTimeout(()=>log('TAG!','t-blk',`SQUARE-ERROR written · batch continues uninterrupted`),420);
+ },
+ ()=>{ log('BULK','t-map',`100 products tagged SQUARE · enqueued`);
+   let n=0; const iv=setInterval(()=>{ n+=Math.floor(Math.random()*14)+8; bucket=Math.min(40,bucket+7); $('e3').textContent=bucket+' / 40 buckets';
+     if(n>=100){ clearInterval(iv); log('BULK','t-ok',`100/100 linked · 0 duplicates · 3.1s`); bucket=0; $('e3').textContent='0 / 40 buckets'; }
+     else log('BULK','t-sync',`${n}/100 processed · concurrency 5 · throttle-aware`);
+   },420);
+ }
+];
+
+drawTable(-1);
+$('m1').textContent=synced.toLocaleString();
+log('BOOT','t-ok','sync engine started · shopify + square webhooks registered');
+log('BOOT','t-ok','hmac validation active · 10,000 mappings loaded');
+
+setInterval(()=>{ up++; $('up').textContent=up; },1000);
+setInterval(()=>{ evmin=38+Math.floor(Math.random()*26); $('m2').textContent=evmin;
+  lat=34+Math.floor(Math.random()*22); $('m4').innerHTML=lat+'<span style="font-size:15px">ms</span>'; },2200);
+setInterval(()=>{ scenes[Math.floor(Math.random()*scenes.length)](); },1900);
+</script>
+</body>
+</html>
